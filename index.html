@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Automata Simulator</title>
+</head>
+<body>
+    <div id="main">
+        <div id="menu">
+            <div id="title">Automata Design</div>
+            <button id="draw-btn">Draw</button>
+            <div id="draw-div">
+                <button id="select"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+                </svg>
+                  </button>
+                <button id="circle">
+                    <div id="circle-1"></div>
+                    <div id="circle-2"></div>
+                </button>
+                <button id="connect"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3" />
+                  </svg>
+                  </button>
+            </div>
+            <div>FA Type:</div>
+            <div id="type-div">
+                <span>DFA</span>
+                <span>NFA</span>
+            </div>
+            <button>Minimize DFA</button>
+            <button>Test String</button>
+            <div id="box"></div>
+        </div>
+
+        <div id="container">
+            <div id="head">
+                <button>Save</button>
+                <button>Load</button>
+                <button>Reset</button>
+            </div>
+            <div id="middle">
+                
+            </div>
+            <div id="bottom">
+                <div id="accept"><span>Accept</span></div>
+                <div id="reject"><span>Reject</span></div>
+                <div id="result"><span>Result</span></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
