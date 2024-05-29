@@ -122,6 +122,12 @@ button {
     width: 10%;
 }
 
+#canvas {
+    width: "20vn";
+    height: 33rem;
+    border: solid black;
+}
+
 
 
 #bottom {

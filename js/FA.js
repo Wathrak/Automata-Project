@@ -85,7 +85,7 @@ class FA {
     transition(state, input) {
 
     } 
- 
+
 }
 
 class State {
@@ -189,30 +189,27 @@ f4.getType();
 
 console.log(f3.states[0].transitionFrom("0")[0].transitionFrom("0")[0])
 
-checkStr(str) {
+// checkStr(str) {
 
-    if(this.finalStates.length == 0) {
-        this.output = "not accepted";
-        console.log(str + ": " + this.output)
-        return;
-    }
-    
-    let  currentState = this.startState;
-    for (let i = 0; i< str.length; i++) {
-        let nextState = currentState.transitionFrom(str.charAt(i))[0];
-        currentState = nextState;
-    }
+//     if(this.finalStates.length == 0) {
+//         this.output = "not accepted";
+//         console.log(str + ": " + this.output)
+//         return;
+//     }
 
-    this.currentState = currentState;
+//     let  currentState = this.startState;
+//     for (let i = 0; i< str.length; i++) {
+//         let nextState = currentState.transitionFrom(str.charAt(i))[0];
+//         currentState = nextState;
+//     }
 
-    if(this.finalStates.includes(currentState)) {
-        console.log("YES");
+//     this.currentState = currentState;
 
-    }else {
-        console.log("NO");
-    }
+//     if(this.finalStates.includes(currentState)) {
+//         console.log("YES");
 
-}
+//     }else {
+//         console.log("NO");
+//     }
 
-
-
+// }
