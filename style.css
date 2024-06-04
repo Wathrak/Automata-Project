@@ -1,6 +1,7 @@
 *, html {
     margin:0;
-    padding:0;  
+    padding:0; 
+    overflow: hidden;
 }
 #main {
     display: flex;
@@ -123,12 +124,11 @@ button {
 }
 
 #canvas {
-    width: "20vn";
-    height: 33rem;
+    width: 89vw;
+    height: 60vh;
     border: solid black;
+    /* background-color: #ee3b50; */
 }
-
-
 
 #bottom {
     flex: 1;
