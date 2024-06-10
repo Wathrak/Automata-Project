@@ -2,6 +2,7 @@ let boxList = [];
 let connections = [];
 let allowMousePressed = false;
 let connectionMode = false;
+var selectedEllipses = [];
 
 function setup() {
   const c = createCanvas(windowWidth - 185, windowHeight - 370);
@@ -70,6 +71,7 @@ function mouseReleased() {
   for (let i = 0; i < boxList.length; i++) {
     boxList[i].released();
   }
+  console.log("Boxlist: " + boxList[0]);
 }
 
 // Double-click event handler
@@ -109,7 +111,7 @@ function openNewFrame(box) {
       <option value="finish" ${box.stateType === 'finish' ? 'selected' : ''}>Finish</option>
     </select><br><br>
   `;
-  
+
   // Add a save button
   let saveButton = document.createElement('button');
   saveButton.innerText = 'Save';
@@ -187,7 +189,11 @@ class Draggable {
     if (this.stateType === 'finish') {
       strokeWeight(3);
       ellipse(this.x + this.w / 2, this.y + this.h / 2, this.w + 10, this.h + 10);
-      strokeWeight(1);
+      strokeWeight(3);
+    }
+
+    else if (this.stateType === 'start') {
+      fill(0,191,255);
     }
     
     ellipse(this.x + this.w / 2, this.y + this.h / 2, this.w, this.h); // Changed to ellipse
@@ -218,7 +224,6 @@ class Draggable {
   }
 }
 
-var selectedEllipses = [];
 
 var circle = document.getElementById('circle');
 circle.addEventListener('click', function() {
