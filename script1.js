@@ -71,7 +71,6 @@ function mouseReleased() {
   for (let i = 0; i < boxList.length; i++) {
     boxList[i].released();
   }
-  console.log("Boxlist: " + boxList[0]);
 }
 
 // Double-click event handler
@@ -172,6 +171,21 @@ class Draggable {
     if (this.dragging) {
       this.x = mouseX + this.offsetX;
       this.y = mouseY + this.offsetY;
+      console.log("this.x: " + this.x);
+      console.log("this.y: " + this.y);
+
+      if (this.y < 1) {
+        this.y = 1;
+      }
+      else if (this.y > 483) {
+        this.y = 483;
+      }
+      if (this.x < 1) {
+        this.x = 1;
+      }
+      else if (this.x > windowWidth - 270) {
+        this.x = windowWidth - 270;
+      }
     }
   }
 
