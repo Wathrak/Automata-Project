@@ -75,6 +75,7 @@ button {
     border-radius: 10px;
     width: 150px;
     padding: 5px;
+    cursor: pointer;
 }
 #type-div span {
     /* background-color: #6da5c0; */
