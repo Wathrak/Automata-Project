@@ -187,6 +187,16 @@ f4.states[2].createTransition("b",f4.states[1]);
 console.log("f4 type: ");
 f4.getType();
 
+f4.checkStr("aa");  // FUCK YEAH
+f4.checkStr("aaa"); // FUCK NO
+f4.checkStr("aaaaa"); // FUCK YEAH
+f4.checkStr("aab"); //  FUCK NO
+
+f4.checkStr("aabb"); // FUCK NO
+f4.checkStr("aabba");// FUCK YEAH
+f4.checkStr("aabbab"); //FUCK NO
+f4.checkStr("aabbabbaa"); //FUCK NO
+
 console.log(f3.states[0].transitionFrom("0")[0].transitionFrom("0")[0])
 
 // checkStr(str) {

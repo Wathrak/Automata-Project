@@ -76,7 +76,7 @@ class Draggable {
     } else {
       fill(175, 200);
     }
-    rect(this.x, this.y, this.w, this.h);
+    ellipse(this.x, this.y, this.w, this.h);
   }
 
   pressed() {
