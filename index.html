@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="js/FA.js"></script>
+    <!-- <script src="js/FA.js"></script> -->
     <title>Automata Simulator</title>
 </head>
 <body>
@@ -24,10 +24,10 @@
             </div>
             <div class="FA-type">FA Type:</div>
             <div id="type-div">
-                <span>DFA</span>
-                <span>NFA</span>
+                <span id="DFA">DFA</span>
+                <span id="NFA">NFA</span>
             </div>
-            <button>Test FA</button>
+            <button id="testfa">Test FA</button>
             <button>Minimize DFA</button>
             <button>Test String</button>
             <input id="box"></input>
@@ -43,7 +43,7 @@
             <!-- p5-JS to draw our elements -->    
             <div id="canvas">
                 <script src="libs/p5.min.js"></script>
-                <script src="script2.js"></script>
+                <script src="script3.js"></script>
             </div>
 
             <!-- Button section -->
