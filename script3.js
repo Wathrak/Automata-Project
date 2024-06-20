@@ -101,7 +101,7 @@ function openNewFrame(box) {
   frame.style.zIndex = '1000';
   frame.style.padding = '20px';
   frame.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
-  
+
   // Add content to the frame
   frame.innerHTML = `
     <h2>State Details</h2>
@@ -133,7 +133,7 @@ function openNewFrame(box) {
     document.body.removeChild(frame);
   };
   frame.appendChild(closeButton);
-  
+
   // Append the frame to the body
   document.body.appendChild(frame);
 }
@@ -152,7 +152,7 @@ function openNewConnectionFrame(connection) {
   frame.style.zIndex = '1000';
   frame.style.padding = '20px';
   frame.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
-  
+
   // Add content to the frame
   frame.innerHTML = `
     <h2>Connection Details</h2>
@@ -180,10 +180,105 @@ function openNewConnectionFrame(connection) {
     document.body.removeChild(frame);
   };
   frame.appendChild(closeButton);
-  
+
   // Append the frame to the body
   document.body.appendChild(frame);
 }
+
+// Save file json
+document.getElementById("save").addEventListener("click", function() {
+    saveFaToJson();
+  });
+  
+  function saveFaToJson() {
+    const faData = getFaData(); 
+    const jsonString = JSON.stringify(faData, null, 2);
+    downloadJSON(jsonString, "FA_DATA.json");
+  }
+  
+  function getFaData() {
+    const states = boxList.map(box => ({
+      x: box.x,
+      y: box.y,
+      stateName: box.stateName,
+      stateType: box.stateType
+    }));
+  
+    const transitions = connections.map(conn => ({
+      from: conn.box1.stateName,
+      to: conn.box2.stateName,
+      name: conn.name
+    }));
+  
+    return { states, transitions };
+  }
+  
+  function downloadJSON(content, filename) {
+    const a = document.createElement("a");
+    const file = new Blob([content], { type: "application/json" });
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
+  }
+  // break file json
+  
+  function loadFAfromJson() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
+    input.onchange = e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        resetFAcanvas();
+        const faData = JSON.parse(event.target.result);
+        let FAobject = setFAdata(faData);
+        renderFA(FAobject);
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+  
+  // Add event listener to the "Load" button
+  document.getElementById("load").addEventListener("click", function() {
+    loadFAfromJson();
+  });
+  
+  // Reset the FA canvas (implement this function as needed)
+  function resetFAcanvas() {
+    boxList = [];
+    connections = [];
+    selectedEllipses = [];
+    allowMousePressed = false;
+    connectionMode = false;
+  }
+  
+  // Set FA data (implement this function as needed)
+  function setFAdata(faData) {
+    boxList = faData.states.map(state => new Draggable(state.x, state.y));
+    boxList.forEach((box, i) => {
+      box.stateName = faData.states[i].stateName;
+      box.stateType = faData.states[i].stateType;
+    });
+  
+    connections = faData.transitions.map(transition => {
+      let fromBox = boxList.find(box => box.stateName === transition.from);
+      let toBox = boxList.find(box => box.stateName === transition.to);
+      let conn = new Connection(fromBox, toBox);
+      conn.name = transition.name;
+      return conn;
+    });
+  
+    return { boxList, connections };
+  }
+  
+  // Render FA (implement this function as needed)
+  function renderFA(FAobject) {
+    // Your rendering logic here, if any additional setup is needed
+  }
+  // Break load FA from json
+
 
 // Click and Drag an object
 // Daniel Shiffman <http://www.shiffman.net>
@@ -240,8 +335,13 @@ class Draggable {
     }
   }
 
-  show() {
+  show(isHighlighted = false) {
+    strokeWeight(2);
     stroke(0);
+    if (isHighlighted) {
+      stroke(255, 0, 0); // Red color when highlighted
+    }
+
     // Different fill based on state
     if (this.dragging) {
       fill(50);
@@ -250,19 +350,17 @@ class Draggable {
     } else {
       fill(255);
     }
-    
+
     if (this.stateType === 'finish') {
       strokeWeight(3);
       ellipse(this.x + this.w / 2, this.y + this.h / 2, this.w + 10, this.h + 10);
-      strokeWeight(3);
+      strokeWeight(2);
+    } else if (this.stateType === 'start') {
+      fill(0, 191, 255);
     }
 
-    else if (this.stateType === 'start') {
-      fill(0,191,255);
-    }
-    
-    ellipse(this.x + this.w / 2, this.y + this.h / 2, this.w, this.h); // Changed to ellipse
-    
+    ellipse(this.x + this.w / 2, this.y + this.h / 2, this.w, this.h);
+
     fill(0);
     textAlign(CENTER, CENTER);
     text(this.stateName, this.x + this.w / 2, this.y + this.h / 2);
@@ -290,30 +388,20 @@ class Draggable {
 }
 
 class Connection {
-  constructor(box1, box2) {
-    this.box1 = box1;
-    this.box2 = box2;
-    this.rollover = false;
-    this.name = '';
-  }
-
-  over() {
-    if (this.box1 === this.box2) {
-      const distance = dist(mouseX, mouseY, this.box1.x + this.box1.w / 2 + 50, this.box1.y + this.box1.h / 2);
-      if (distance < 20) {
-        this.rollover = true;
-        return true;
-      } else {
-        this.rollover = false;
-        return false;
-      }
-    } else {
+    constructor(box1, box2) {
+      this.box1 = box1;
+      this.box2 = box2;
+      this.rollover = false;
+      this.name = '';
+    }
+  
+    over() {
       const distance = distToSegment(
         mouseX, mouseY,
         this.box1.x + this.box1.w / 2, this.box1.y + this.box1.h / 2,
         this.box2.x + this.box2.w / 2, this.box2.y + this.box2.h / 2
       );
-
+  
       if (distance < 5) {  // Threshold for detecting mouse over connection
         this.rollover = true;
         return true;
@@ -322,51 +410,77 @@ class Connection {
         return false;
       }
     }
-  }
-
-  show() {
-    strokeWeight(2);
-    if (this.rollover) {
-      stroke(255, 0, 0);
-    } else {
-      stroke(0, 0, 0);
-    }
-
-    if (this.box1 === this.box2) {
-      // Draw a loop
-      noFill();
+  
+    show() {
       strokeWeight(2);
       if (this.rollover) {
-        stroke(255, 0, 0);
+        stroke(255, 0, 0); // Red color when hovered
       } else {
-        stroke(0, 0, 0);
+        stroke(0, 0, 0); // Black color otherwise
       }
-      arc(this.box1.x + this.box1.w / 2 + 50, this.box1.y + this.box1.h / 2, 100, 100, 0, TWO_PI);
-    } else {
-      line(
-        this.box1.x + this.box1.w / 2,
-        this.box1.y + this.box1.h / 2,
-        this.box2.x + this.box2.w / 2,
-        this.box2.y + this.box2.h / 2
-      );
+  
+      if (this.box1 === this.box2) {
+        // Draw a loop
+        noFill();
+        arc(this.box1.x + this.box1.w / 2 + 50, this.box1.y + this.box1.h / 2, 100, 100, 0, TWO_PI);
+      } else {
+        // Draw a bezier curve
+        const x1 = this.box1.x + this.box1.w / 2;
+        const y1 = this.box1.y + this.box1.h / 2;
+        const x2 = this.box2.x + this.box2.w / 2;
+        const y2 = this.box2.y + this.box2.h / 2;
+  
+        const control1X = (x1 + x2) / 2;
+        const control1Y = y1 - 100;
+        const control2X = (x1 + x2) / 2;
+        const control2Y = y2 + 100;
+  
+        noFill();
+        beginShape();
+        vertex(x1, y1);
+        bezierVertex(control1X, control1Y, control2X, control2Y, x2, y2);
+        endShape();
+  
+        this.drawArrowhead(control2X, control2Y, x2, y2);
+      }
+  
+      // Display connection name in the middle of the connection line
+      let midX, midY;
+      if (this.box1 === this.box2) {
+        midX = this.box1.x + this.box1.w / 2 + 50;
+        midY = this.box1.y + this.box1.h / 2;
+      } else {
+        midX = (this.box1.x + this.box1.w / 2 + this.box2.x + this.box2.w / 2) / 2;
+        midY = (this.box1.y + this.box1.h / 2 + this.box2.y + this.box2.h / 2) / 2 - 10;
+      }
+  
+      strokeWeight(1);
+      fill(0);
+      textAlign(CENTER, CENTER);
+      text(this.name, midX, midY);
+  
+      // Draw the connected ellipses with a highlight if the connection is hovered over
+      this.box1.show(this.rollover);
+      this.box2.show(this.rollover);
     }
-
-    // Display connection name in the middle of the connection line
-    let midX, midY;
-    if (this.box1 === this.box2) {
-      midX = this.box1.x + this.box1.w / 2 + 50;
-      midY = this.box1.y + this.box1.h / 2;
-    } else {
-      midX = (this.box1.x + this.box1.w / 2 + this.box2.x + this.box2.w / 2) / 2;
-      midY = (this.box1.y + this.box1.h / 2 + this.box2.y + this.box2.h / 2) / 2 - 10;
+  
+    drawArrowhead(controlX, controlY, x2, y2) {
+      const angle = atan2(y2 - controlY, x2 - controlX);
+      const arrowSize = 10;
+  
+      push();
+      translate(x2, y2);
+      rotate(angle);
+      fill(0);
+      noStroke();
+      beginShape();
+      vertex(-arrowSize, arrowSize / 2);
+      vertex(0, 0);
+      vertex(-arrowSize, -arrowSize / 2);
+      endShape(CLOSE);
+      pop();
     }
-
-    strokeWeight(1);
-    fill(0);
-    textAlign(CENTER, CENTER);
-    text(this.name, midX, midY);
-  }
-}
+}  
 
 function distToSegment(px, py, x1, y1, x2, y2) {
   const l2 = (x2 - x1) ** 2 + (y2 - y1) ** 2;
@@ -408,7 +522,7 @@ function Type() {
   for (i=0; i<transitions.length - 1; i++) {
     if (transitions[i+1] == transitions[i]) {
       console.log("DFA");
-      document.getElementById('DFA').style.backgroundColor = "#ee3b50";
+      document.getElementById('DFA').style.backgroundColor = "#16fd20";
       document.getElementById('NFA').style.backgroundColor = "white";
     }
     else {
