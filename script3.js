@@ -388,20 +388,30 @@ class Draggable {
 }
 
 class Connection {
-    constructor(box1, box2) {
-      this.box1 = box1;
-      this.box2 = box2;
-      this.rollover = false;
-      this.name = '';
-    }
-  
-    over() {
+  constructor(box1, box2) {
+    this.box1 = box1;
+    this.box2 = box2;
+    this.rollover = false;
+    this.name = '';
+  }
+
+  over() {
+    if (this.box1 === this.box2) {
+      const distance = dist(mouseX, mouseY, this.box1.x + this.box1.w / 2 + 50, this.box1.y + this.box1.h / 2);
+      if (distance < 20) {
+        this.rollover = true;
+        return true;
+      } else {
+        this.rollover = false;
+        return false;
+      }
+    } else {
       const distance = distToSegment(
         mouseX, mouseY,
         this.box1.x + this.box1.w / 2, this.box1.y + this.box1.h / 2,
         this.box2.x + this.box2.w / 2, this.box2.y + this.box2.h / 2
       );
-  
+
       if (distance < 5) {  // Threshold for detecting mouse over connection
         this.rollover = true;
         return true;
@@ -410,77 +420,51 @@ class Connection {
         return false;
       }
     }
-  
-    show() {
+  }
+
+  show() {
+    strokeWeight(2);
+    if (this.rollover) {
+      stroke(255, 0, 0);
+    } else {
+      stroke(0, 0, 0);
+    }
+
+    if (this.box1 === this.box2) {
+      // Draw a loop
+      noFill();
       strokeWeight(2);
       if (this.rollover) {
-        stroke(255, 0, 0); // Red color when hovered
+        stroke(255, 0, 0);
       } else {
-        stroke(0, 0, 0); // Black color otherwise
+        stroke(0, 0, 0);
       }
-  
-      if (this.box1 === this.box2) {
-        // Draw a loop
-        noFill();
-        arc(this.box1.x + this.box1.w / 2 + 50, this.box1.y + this.box1.h / 2, 100, 100, 0, TWO_PI);
-      } else {
-        // Draw a bezier curve
-        const x1 = this.box1.x + this.box1.w / 2;
-        const y1 = this.box1.y + this.box1.h / 2;
-        const x2 = this.box2.x + this.box2.w / 2;
-        const y2 = this.box2.y + this.box2.h / 2;
-  
-        const control1X = (x1 + x2) / 2;
-        const control1Y = y1 - 100;
-        const control2X = (x1 + x2) / 2;
-        const control2Y = y2 + 100;
-  
-        noFill();
-        beginShape();
-        vertex(x1, y1);
-        bezierVertex(control1X, control1Y, control2X, control2Y, x2, y2);
-        endShape();
-  
-        this.drawArrowhead(control2X, control2Y, x2, y2);
-      }
-  
-      // Display connection name in the middle of the connection line
-      let midX, midY;
-      if (this.box1 === this.box2) {
-        midX = this.box1.x + this.box1.w / 2 + 50;
-        midY = this.box1.y + this.box1.h / 2;
-      } else {
-        midX = (this.box1.x + this.box1.w / 2 + this.box2.x + this.box2.w / 2) / 2;
-        midY = (this.box1.y + this.box1.h / 2 + this.box2.y + this.box2.h / 2) / 2 - 10;
-      }
-  
-      strokeWeight(1);
-      fill(0);
-      textAlign(CENTER, CENTER);
-      text(this.name, midX, midY);
-  
-      // Draw the connected ellipses with a highlight if the connection is hovered over
-      this.box1.show(this.rollover);
-      this.box2.show(this.rollover);
+      arc(this.box1.x + this.box1.w / 2 + 50, this.box1.y + this.box1.h / 2, 100, 100, 0, TWO_PI);
+    } else {
+      line(
+        this.box1.x + this.box1.w / 2,
+        this.box1.y + this.box1.h / 2,
+        this.box2.x + this.box2.w / 2,
+        this.box2.y + this.box2.h / 2
+      );
     }
-  
-    drawArrowhead(controlX, controlY, x2, y2) {
-      const angle = atan2(y2 - controlY, x2 - controlX);
-      const arrowSize = 10;
-  
-      push();
-      translate(x2, y2);
-      rotate(angle);
-      fill(0);
-      noStroke();
-      beginShape();
-      vertex(-arrowSize, arrowSize / 2);
-      vertex(0, 0);
-      vertex(-arrowSize, -arrowSize / 2);
-      endShape(CLOSE);
-      pop();
+
+    // Display connection name in the middle of the connection line
+    let midX, midY;
+    if (this.box1 === this.box2) {
+      midX = this.box1.x + this.box1.w / 2 + 50;
+      midY = this.box1.y + this.box1.h / 2;
+    } else {
+      midX = (this.box1.x + this.box1.w / 2 + this.box2.x + this.box2.w / 2) / 2;
+      midY = (this.box1.y + this.box1.h / 2 + this.box2.y + this.box2.h / 2) / 2 - 10;
     }
-}  
+
+    strokeWeight(1);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text(this.name, midX, midY);
+  }
+}
 
 function distToSegment(px, py, x1, y1, x2, y2) {
   const l2 = (x2 - x1) ** 2 + (y2 - y1) ** 2;
@@ -522,7 +506,7 @@ function Type() {
   for (i=0; i<transitions.length - 1; i++) {
     if (transitions[i+1] == transitions[i]) {
       console.log("DFA");
-      document.getElementById('DFA').style.backgroundColor = "#16fd20";
+      document.getElementById('DFA').style.backgroundColor = "#ee3b50";
       document.getElementById('NFA').style.backgroundColor = "white";
     }
     else {
