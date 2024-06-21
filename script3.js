@@ -12,7 +12,7 @@ function setup() {
 }
 
 function draw() {
-  background(100);
+  background(255);
 
   // Draw all connections
   for (let connection of connections) {
