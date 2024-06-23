@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <!-- <script src="js/FA.js"></script> -->
+    <script src="js/FA.js"></script>
     <title>Automata Simulator</title>
 </head>
-<body>
+<body style="font-family: Tahoma, Verdana, sans-serif;">
     <div id="main">
         <div id="menu">
-            <div id="title">Automata Design</div>
-            <button id="draw-btn" class="cta__button">Draw</button>
+            <div id="title">
+                Automata Design</div>
             <div id="draw-div">
+                <div style="padding-bottom: 20px; font-family: Tahoma, Verdana, sans-serif; font-size: 20px;">Draw</div>
                 <button id="circle">
                     <div id="circle-1"></div>   
                     <div id="circle-2"></div>
@@ -28,9 +29,11 @@
                 <span id="NFA">NFA</span>
             </div>
             <button id="testfa">Test FA</button>
-            <button>Minimize DFA</button>
-            <button>Test String</button>
+            <button class="minimize">Minimize DFA</button>
+            <p class="T_and_D">Test / Debug:</p>
             <input id="box"></input>
+            <button class="c">Test String</button>
+            <button class="Bulk_Test">Bulk Test</button>
         </div>
 
         <div id="container">
@@ -38,6 +41,9 @@
                 <button class="save" id="save">Save</button>
                 <button class="load" id="load">Load</button>
                 <button class="reset" id="reset">Reset</button>
+                <a href="https://github.com/Wathrak/Automata-Project/tree/main">
+                    <img id="github" src="GitHub-img.png" alt="GitHub-img">
+                  </a>
             </div>
             
             <!-- p5-JS to draw our elements -->    
@@ -46,8 +52,7 @@
                 <!-- <script src="script.js"></script> -->
                 <!-- <script src="script1.js"></script> -->
                 <!-- <script src="script2.js"></script> -->
-                <script src="script3.js"></script>
-                <script src="script3.js"></script>
+                <script src="script.js"></script>
             </div>
 
             <!-- Button section -->

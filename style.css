@@ -12,19 +12,25 @@
 }
 #menu {
     flex: 1;
-    background-color: #384358;
+    background-color: #5C469C;
     text-align: center;
     font-size: x-large;
 }
 #title {
+    display: flex;
+    align-items: center;
+    /* position: relative; */
+    /* top: px; */
     color: white;
-    margin-left: 0px;
-    margin-right: 0px;
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 23px;
+    text-decoration: underline;
+    padding-bottom: 20px;
 }
+
 .FA-type {
     color: white;
+    font-size: 20px;
+    text-decoration: underline;
 }
 button {
     border-color: white;
@@ -33,7 +39,7 @@ button {
     color: white;
     width: 150px;
     padding: 10px;
-    font-size: large;
+    font-size: 20px;
 }
 #draw-div {
     background-color: white;
@@ -51,7 +57,7 @@ button {
 #draw-div button {
     width: 50px;
     height: 50px;
-    margin: 5px;
+    margin: 4px;
 }
 #circle div{
     background-color: white;
@@ -73,7 +79,6 @@ button {
     color: white;
     border: solid white;
     border-radius: 10px;
-    width: 150px;
     padding: 5px;
     cursor: pointer;
 }
@@ -82,8 +87,9 @@ button {
     padding: 0 12px 0 12px;
 }
 #box {
+    margin-top: 0px;
     background-color: white;
-    padding-bottom: 60%;
+    /* padding-bottom: 10%; */
     border-radius: 10px;
 }
 
@@ -163,6 +169,17 @@ button {
     flex: 1;
     border: 1px solid black;
 }
+.T_and_D {
+    font-size: 20px;
+    color: white;
+    text-decoration: underline;
+}
+.Bulk_Test {
+    position: relative;
+    top: 82px;
+}
+
+
 
 /* button {
     color: #FFF;
@@ -285,7 +302,12 @@ button-animated {
 
 
 
-
-
-
-
+#github {
+    width: 80px;
+    border-radius: 50px;
+}
+#github:hover {
+    cursor: pointer;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
