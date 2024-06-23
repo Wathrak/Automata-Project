@@ -495,6 +495,8 @@ reset.addEventListener('click', function() {
     connectionMode = false;
     selectedEllipses = [];
     transitions = [];
+    document.getElementById('NFA').style.backgroundColor = "white";
+    document.getElementById('NFA').style.backgroundColor = "white";
 });
 
 function Type() {

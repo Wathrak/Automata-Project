@@ -16,7 +16,7 @@ class FA {
     createState() {
         let s = new State();
         this.states.push(s);
-        console.log("state created");
+        // console.log("state created");
     }
 
     // Doesn't actually delete the state, only removes related transitions
@@ -652,30 +652,30 @@ class State {
 // f1.checkStr("ab"); // accept
 // f1.output -> 1 = accepted; 0 = rejected
 
-//NFA
+// NFA
 // console.log("F3")
-let f3 = new FA();
-f3.alphabet = ["0", "1", "2"];
-f3.createState();
-f3.createState();
-f3.createState();
-f3.createState();
+// let f3 = new FA();
+// f3.alphabet = ["0", "1", "2"];
+// f3.createState();
+// f3.createState();
+// f3.createState();
+// f3.createState();
 
-f3.makeFinalState(f3.states[1]);
-f3.makeFinalState(f3.states[3]);
+// f3.makeFinalState(f3.states[1]);
+// f3.makeFinalState(f3.states[3]);
 
-f3.createTransition(0, 1, "0");
-f3.createTransition(0, 2 ,"1");
-f3.createTransition(0, 3, "");
+// f3.createTransition(0, 1, "0");
+// f3.createTransition(0, 2 ,"1");
+// f3.createTransition(0, 3, "");
 
 
-f3.createTransition(1,1,"0");
-f3.createTransition(1,3,"");
+// f3.createTransition(1,1,"0");
+// f3.createTransition(1,3,"");
 
-f3.createTransition(2,2,"0");
-f3.createTransition(1,2,"1");
+// f3.createTransition(2,2,"0");
+// f3.createTransition(1,2,"1");
 
-f3.createTransition(3,2,"");
+// f3.createTransition(3,2,"");
 
 // console.log("f3 type: " );
 // f3.getType();
@@ -694,27 +694,212 @@ f3.createTransition(3,2,"");
 
 
 // Chapter 5 homework NFA To DFA 3
-let f9 = new FA();
-f9.alphabet = ["a", "b"];
+// let f9 = new FA();
+// f9.alphabet = ["a", "b"];
 
-for(let i = 0; i < 6; i++) f9.createState();
+// for(let i = 0; i < 6; i++) f9.createState();
 
-f9.makeFinalState(f9.states[3]);
+// f9.makeFinalState(f9.states[3]);
 
-f9.createTransition(0, 1, "b"); // new wrapper function
+// f9.createTransition(0, 1, "b"); // new wrapper function
 
-f9.createTransition(1, 2, "a"); 
-f9.createTransition(1, 5, "b"); 
-f9.createTransition(1, 2, ""); 
+// f9.createTransition(1, 2, "a"); 
+// f9.createTransition(1, 5, "b"); 
+// f9.createTransition(1, 2, ""); 
 
-f9.createTransition(2, 1, "b"); 
-f9.createTransition(2, 3, "b"); 
+// f9.createTransition(2, 1, "b"); 
+// f9.createTransition(2, 3, "b"); 
 
-f9.createTransition(3, 4, "a"); 
+// f9.createTransition(3, 4, "a"); 
 
-f9.createTransition(4, 3, ""); 
-f9.createTransition(4, 2, "b"); 
-f9.createTransition(4, 5, "a"); 
+// f9.createTransition(4, 3, ""); 
+// f9.createTransition(4, 2, "b"); 
+// f9.createTransition(4, 5, "a"); 
 
-f9.createTransition(5, 2, ""); 
-f9.createTransition(5, 3, "a");
+// f9.createTransition(5, 2, ""); 
+// f9.createTransition(5, 3, "a");
+
+
+
+
+
+
+// Presentation
+
+// Chapter 5 Homework Minimize DFA 
+let f10 = new FA();
+f10.alphabet = ["a", "b"];
+
+for(let i = 0; i < 5; i++) f10.createState();
+f10.makeFinalState(f10.states[1]);
+f10.makeFinalState(f10.states[3]);
+
+f10.createTransition(0, 1, "a");
+f10.createTransition(0, 1, "b");
+
+f10.createTransition(1, 2, "a");
+f10.createTransition(1, 2, "b");
+
+f10.createTransition(2, 3, "a");
+f10.createTransition(2, 3, "b");
+
+f10.createTransition(3, 2, "a");
+f10.createTransition(3, 2, "b");
+
+f10.createTransition(4, 3, "a");
+f10.createTransition(4, 2, "b");
+
+console.log(f10.states.length)
+f10.getType();
+
+f10.checkStr("a");
+f10.output == 0 ? console.log("String rejected") : console.log("String accepted")
+f10.checkStr("ab");
+f10.output == 0 ? console.log("String rejected") : console.log("String accepted")
+f10.checkStr("aba");
+f10.output == 0 ? console.log("String rejected") : console.log("String accepted")
+f10.checkStr("aaa")
+f10.output == 0 ? console.log("String rejected") : console.log("String accepted")
+
+// Minimize DFA
+let f10Min = f10.getMinimizedDFA();
+console.log(f10Min.states.length)
+f10Min.getType();
+
+
+f10Min.checkStr("a");
+f10Min.output == 0 ? console.log("String rejected") : console.log("String accepted")
+f10Min.checkStr("ab");
+f10Min.output == 0 ? console.log("String rejected") : console.log("String accepted")
+f10Min.checkStr("aba");
+f10Min.output == 0 ? console.log("String rejected") : console.log("String accepted")
+f10Min.checkStr("aaa");
+f10Min.output == 0 ? console.log("String rejected") : console.log("String accepted")
+
+
+// Break presentation
+
+
+
+
+
+
+
+
+
+// let f12 = new FA();
+// f12.alphabet = ['0', '1'];
+
+// for(let i = 0; i < 6; i++) f12.createState();
+
+// f12.makeFinalState(f12.states[3]);
+// f12.makeFinalState(f12.states[4]);
+
+
+// f12.createTransition(0, 1, '0');
+// f12.createTransition(0, 2, '1');
+
+// f12.createTransition(1, 0, '0');
+// f12.createTransition(1, 3, '1');
+
+// f12.createTransition(2, 4, '0');
+// f12.createTransition(2, 5, '1');
+
+// f12.createTransition(3, 4, '0');
+// f12.createTransition(3, 5, '1');
+
+// f12.createTransition(4, 4, '0');
+// f12.createTransition(4, 5, '1');
+
+// f12.createTransition(5, 5, '0');
+// f12.createTransition(5, 5, '1');
+
+// f12.getType();
+
+// f12.checkStr("01") // accept
+// f12.checkStr("0100") // accept
+
+
+// f12.checkStr("01101") // reject
+// f12.checkStr("01001") // reject
+
+
+
+// let f12Min = f12.getMinimizedDFA();
+// console.log(f12Min);
+
+// f12Min.checkStr("01") // accept
+// f12Min.checkStr("0100") // accept
+
+// f12Min.checkStr("01101") // reject
+// f12Min.checkStr("01001") // reject
+
+
+
+
+
+
+
+
+
+// Chapter 5 homework NFA To DFA 3
+// let f9 = new FA();
+// f9.alphabet = ["a", "b"];
+
+// for(let i = 0; i < 6; i++) f9.createState();
+
+// f9.makeFinalState(f9.states[3]);
+
+// f9.createTransition(0, 1, "b");
+
+// f9.createTransition(1, 2, "a"); 
+// f9.createTransition(1, 5, "b"); 
+// f9.createTransition(1, 2, ""); 
+
+// f9.createTransition(2, 1, "b"); 
+// f9.createTransition(2, 3, "b"); 
+
+// f9.createTransition(3, 4, "a"); 
+
+// f9.createTransition(4, 3, ""); 
+// f9.createTransition(4, 2, "b"); 
+// f9.createTransition(4, 5, "a"); 
+
+// f9.createTransition(5, 2, ""); 
+// f9.createTransition(5, 3, "a");
+
+// console.log("f9 type:",)
+// f9.getType();
+// console.log("f9 state counts: ", f9DFA.states.length)
+
+
+// let str = "bb";
+// f9.checkStr(str)
+// f9.output == 1 ? console.log(str, " Accepted") : console.log(str, " Rejected");
+
+// str = "bab";
+// f9.checkStr(str);
+// f9.output == 1 ? console.log(str, " Accepted") : console.log(str, " Rejected");
+
+// str = "abb";
+// f9.checkStr(str);
+// f9.output == 1 ? console.log(str, " Accepted") : console.log(str, " Rejected");
+
+
+// let f9DFA = f9.getNFAtoDFA();
+// console.log("f9DFA type:",)
+// f9DFA.getType();
+// console.log("f9DFA state counts: ", f9DFA.states.length)
+
+// str = "bb";
+// f9DFA.checkStr(str)
+// f9DFA.output == 1 ? console.log(str, " Accepted") : console.log(str, " Rejected");
+
+// str = "bab";
+// f9DFA.checkStr(str);
+// f9DFA.output == 1 ? console.log(str, " Accepted") : console.log(str, " Rejected");
+
+// str = "abb";
+// f9DFA.checkStr(str);
+// f9DFA.output == 1 ? console.log(str, " Accepted") : console.log(str, " Rejected");
+

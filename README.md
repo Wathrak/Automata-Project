@@ -15,7 +15,7 @@
 - Determine FA Type
 - Save FA and Load FA from JSON file
 
-## Missing Of Feature in UI
+## Lacking Feature in UI
 - Test String: This feature is not yet implemented in UI.
 - Convert NFA to DFA: This feature is not yet implemented in UI.
 - Minimize FA: This feature is not yet implemented in UI.
@@ -33,7 +33,7 @@ By selecting on the drop-down box, you may create a **State type** such as **Sta
 
 ![alt text](asset/user_guide/state_type.jpg)
 
-**Here are the different types of states, one by one.**
+**Here are the different types of states**
 
 ## Create a transition between states
 
